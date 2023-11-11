@@ -1,6 +1,6 @@
 #include<iostream>
 #include<windows.h>
-
+#include<queue>
 using namespace std;
 
 // BST NODE
@@ -96,6 +96,83 @@ public:
     {
         return FindHeight(root);
     }
+    void levelOrderTraversel()
+    {
+        if (root == nullptr)
+            return;
+        queue<BstNode<T>*> tempQue;
+        tempQue.push(root);
+        while (!tempQue.empty())
+        {
+            BstNode<T>* current = tempQue.front();
+            cout << current->data << " ,";
+
+            if (current->BstLeft != nullptr)
+                tempQue.push(current->BstLeft);
+            if (current->BstRight != nullptr)
+                tempQue.push(current->BstRight);
+
+            tempQue.pop();
+        }
+    }
+    void Preorder(BstNode<T>* root)
+    {
+        if (root == nullptr)
+            return;
+        cout << root->data <<", ";
+        Preorder(root->BstLeft);
+        Preorder(root->BstRight);
+    }
+    void Preorder()
+    {
+        Preorder(root);
+    }
+    void Inorder(BstNode<T>* root)
+    {
+        if (root == nullptr)
+            return;
+        Inorder(root->BstLeft);
+        cout << root->data << ", ";
+        Inorder(root->BstRight);
+    }
+    void Inorder()
+    {
+        Inorder(root);
+    }
+//idk 
+    BstNode<T>* Delete(BstNode<T>* root, T data) 
+    {
+        if (root == nullptr)
+            return root;
+
+        if (data < root->data) {
+            root->BstLeft = Delete(root->BstLeft, data);
+        }
+        else if (data > root->data) {
+            root->BstRight = Delete(root->BstRight, data);
+        }
+        else {
+            if (root->BstLeft == nullptr) {
+                BstNode<T>* temp = root->BstRight;
+                delete root;
+                return temp;
+            }
+            else if (root->BstRight == nullptr) {
+                BstNode<T>* temp = root->BstLeft;
+                delete root;
+                return temp;
+            }
+
+            BstNode<T>* temp = FindMin(root->BstRight);
+            root->data = temp->data;
+            root->BstRight = Delete(root->BstRight, temp->data);
+        }
+        return root;
+    }
+
+    void Delete(T data) {
+        root = Delete(root, data);
+    }
     
 };
 
@@ -109,7 +186,8 @@ int main()
     rt->insert(16);
     rt->insert(40);
     rt->insert(18);
-    rt->insert(-98);
-    cout << rt->Search(19) <<"mm" << rt->FindHeight();
-    cout << rt->FindMin()<<rt->FindMax();
+    cout << "LEVEL ORDER TRAVERSEL";
+    rt->levelOrderTraversel();
+    cout << endl;
+    rt->Preorder();
 }
