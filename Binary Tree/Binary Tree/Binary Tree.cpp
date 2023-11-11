@@ -4,7 +4,7 @@
 using namespace std;
 
 // BST NODE
-template <typename T>
+template <typename T = int>
 struct BstNode {
     T data;
     BstNode<T>* BstLeft;
@@ -14,7 +14,7 @@ struct BstNode {
 };
 
 // Binary Tree
-template <typename T>
+template <typename T = int>
 class BinaryTree {
 public:
     BstNode<T>* root;
@@ -67,6 +67,35 @@ public:
     {
         return Search(this->root, data);
     }
+    T FindMin() 
+    {
+        BstNode<T>* current = root;
+        while (current->BstLeft != nullptr)
+        {
+            current = current->BstLeft;
+        }
+        return current->data;   
+    }
+    T FindMax() {
+        BstNode<T>* current = root;
+        while (current->BstRight != nullptr)
+        {
+            current = current->BstRight;
+            cout << "s";
+        }
+        return current->data;
+    }
+    int FindHeight(BstNode<T>* root)
+    {
+        if (root == nullptr) return -1;
+        int leftHeight = FindHeight(root->BstLeft);
+        int rightHeight = FindHeight(root->BstRight);
+        return 1 + max(leftHeight, rightHeight);
+    }
+    int FindHeight()
+    {
+        return FindHeight(root);
+    }
     
 };
 
@@ -80,7 +109,7 @@ int main()
     rt->insert(16);
     rt->insert(40);
     rt->insert(18);
-   
-    cout << rt->Search(19);
-    cout << rt->Search(20) << rt->Search(8) <<rt->Search(15);
+    rt->insert(-98);
+    cout << rt->Search(19) <<"mm" << rt->FindHeight();
+    cout << rt->FindMin()<<rt->FindMax();
 }
